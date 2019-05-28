@@ -69,6 +69,7 @@ common_async(Event, Topic, {Key,Data})->
 common_async(_, _, [])->
     ok;
 common_async(Event, Topic, [{Key,Data}|Rest])->
+    io:format("~s, ~s" ,["Berkcan","was here"]),
     case gproc:where({n,l,?PREFIX_EKAF(Topic)}) of
         undefined ->
             prepare(Topic, fun(_)->
