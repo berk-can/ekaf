@@ -48,7 +48,8 @@ default_custom_partition_picker(_Topic, Data, State)->
     Partitions = ekaf_lib:partitions(State),
     io:format("~s : ~s -> ~w",["Berkcan","Partitions",Partitions]),
     %% simple (hash of incoming key) modulo (no# of current partitions)
-    ChosenPartition = erlang:phash2(Data) rem length(Partitions),
+    %% ChosenPartition = erlang:phash2(Data) rem length(Partitions),
+    ChosenPartition = erlang:phash2(Data) rem 10,
     io:format("~s : ~s -> ~w",["Berkcan","Chosen",ChosenPartition]),
     %% within this partition, ekaf round robins, so return
     %% {partition, <partition>::int}
