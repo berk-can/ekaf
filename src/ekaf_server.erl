@@ -324,13 +324,16 @@ handle_event(_Event, StateName, StateData) ->
 %%          {stop, Reason, Reply, NewStateData}
 %%--------------------------------------------------------------------
 handle_sync_event({pick, _Topic}, _From, ready, #ekaf_server{ strategy = strict_round_robin, workers = [Worker|Workers] } = State) ->
+    io:format("Berkcan selected strategy1 is ~s",[strategy]),
     fsm_reply({ok,Worker}, ready, State#ekaf_server{ workers = lists:append(Workers,[Worker])} );
 handle_sync_event({pick, _Topic}, _From, ready, #ekaf_server{ strategy = sticky_round_robin, worker = Worker, ctr = Ctr } = State) ->
+    io:format("Berkcan selected strategy2 is ~s",[strategy]),
     fsm_reply({ok, Worker}, ready, State#ekaf_server{ ctr = Ctr + 1});
 %% if this strategy has been decided (can be configured for all topics, or for specific topics)
 %% then all messages of a tuple form {Key,Bin} will be passed to a function to decide the partition based on Key
 handle_sync_event({pick, Data}, _From, ready, #ekaf_server{ topic = Topic, strategy = custom,
                                                             workers = [FirstWorker|RestWorkers] = Workers} = State) ->
+    io:format("Berkcan selected strategy3 is ~s",[strategy]),
     {M,F} = ekaf_lib:get_default(Topic, ?EKAF_CALLBACK_CUSTOM_PARTITION_PICKER_ATOM, {ekaf_callbacks, default_custom_partition_picker}),
     {FinalWorker, Next} =
         case (catch M:F(Topic, Data, State)) of
@@ -446,6 +449,7 @@ handle_info({worker, up, WorkerUp, WorkerUpStateName, WorkerUpState, _}, StateNa
     Next = ekaf_server_lib:reply_to_prepares(WorkerUp, State),
     fsm_next_state(StateName, Next#ekaf_server{ worker = WorkerUp, messages = [], workers = pg2:get_local_members(?PREFIX_EKAF(Topic))});
 handle_info({set, strategy, Value}, ready, State)->
+    io:format("Berkcan selected strategy is ~s",[strategy]),
     Next = State#ekaf_server{ strategy = Value },
     fsm_next_state(ready, Next);
 handle_info({set, max_buffer_size, Value}, ready,  State)->
