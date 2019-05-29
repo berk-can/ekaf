@@ -77,6 +77,7 @@ init(_Args) ->
 
 generic_init(Topic)->
     Strategy = ekaf_lib:get_default(Topic,ekaf_partition_strategy, ?EKAF_DEFAULT_PARTITION_STRATEGY),
+    io:format("Berkcan init strategy as ~s for Topic ~s",[Strategy,Topic]),
     StickyPartitionBatchSize = ekaf_lib:get_default(Topic,ekaf_sticky_partition_buffer_size, 1000),
     MaxDowntimeBufferSize = ekaf_lib:get_max_downtime_buffer_size(Topic),
     BootstrapBroker = ekaf_lib:get_bootstrap_broker(),
