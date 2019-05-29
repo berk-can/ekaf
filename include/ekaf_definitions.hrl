@@ -7,7 +7,7 @@
 -define(EKAF_DEFAULT_PER_PARTITION_WORKERS       , 100).
 -define(EKAF_DEFAULT_PER_PARTITION_WORKERS_MAX   , 100).
 -define(EKAF_DEFAULT_BUFFER_TTL                  , 5000).
--define(EKAF_DEFAULT_PARTITION_STRATEGY          , random).
+-define(EKAF_DEFAULT_PARTITION_STRATEGY          , custom).
 -define(EKAF_DEFAULT_PULL_FOR_CHANGES_TIMEOUT    , 60000).
 -define(EKAF_PUSH_TO_STATSD_ENABLED              , ekaf_push_to_statsd_enabled).
 -define(EKAF_DEFAULT_PUSH_TO_STATSD_ENABLED      , false).
